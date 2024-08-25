@@ -1,73 +1,76 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+NEST JS NOTES
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+To Install command line interface:  nest -g @nestjs/cli —This might be wrong
+				— npm i -g @nestjs/cli
 
-## Description
+To create a new project inside a directory: nest new projectname
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+To start the project: npm run start:dev
 
-## Installation
+To add a Module / Controller / Service:  nest g module users
+								     nest g controller users
+								     nest g service users  -> service is also provider
 
-```bash
-$ npm install
-```
+To Create service, modules and controller of a specific route all at once, we use
+nest g resource file_name ->.  REST_API   ->.  CRUD - Yes
 
-## Running the app
 
-```bash
-# development
-$ npm run start
+— Controllers : Controllers in NestJS is like a Skeleton of the structure where we define the request and return whatever is to be returned .
+We use decoraters to define a request and write a function with necessary params or body to be returned 
 
-# watch mode
-$ npm run start:dev
 
-# production mode
-$ npm run start:prod
-```
+— Provider / Service : A place where we write the logic of the controller by accepting properties passed from the controller to the service file and return.
 
-## Test
+we then initialise a constructor inside our controller by importing service file and use it in our controller function by
+this.ServiceName.functionName
 
-```bash
-# unit tests
-$ npm run test
 
-# e2e tests
-$ npm run test:e2e
 
-# test coverage
-$ npm run test:cov
-```
 
-## Support
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+— DTO Validation.  
+	DTO Stands for Data Transfer Object in NestJS which are like interfaces for variables or objects but can also include different validations just like try catch or specific.
 
-## Stay in touch
+For declaring interfaces in typescript, in nestjs, we use DTO, in order to create, we create a file file_name.dto.ts file and include within it
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+	We use pipes like ParseIntPipe, ParseFloatPipe etc to pass a data of a specific type such that it converts into another data type and handles validation.
 
-## License
+For validation of data passed either through body, we use decorators imported from ‘class-validator’ package into our dto file , 
+	EG: IsString(), IsEmail(), IsNum(), IsNotEmpty() etc — we use as decorators above the specific field.
+THEN: In our controller file, within @Body, We pass the ValidationPipe 
+We then use throw new NotFoundException imported from @nestjs/common to throw an error.
 
-Nest is [MIT licensed](LICENSE).
+
+
+— Now to integrate database into nestjs file, in the course, we use neon database with prisma, so download below packages
+npm i prisma -D
+npx prisma init
+
+Then a new folder gets created named prisma, inside contains a schema.prisma file, where we insert our database db object from the prisma including the .env configurations.
+ We create a model inside Model model_name {
+	…..
+}
+
+
+we then create a database folder inside which we write code to connect to our database2
+
+We then use the below commands to migrate the database into our neon db and prisma such that it creates a migration folder with sql commands as we update or create more models.
+
+—To Create
+npx prisma migrate dev --name init
+
+— To Update
+npx prisma generate
+
+Then we use the create command again to update the database
+
+
+To Create service, modules and controller of a specific route all at once, we use
+nest g resource file_name ->.  REST_API   ->.  CRUD - Yes
+
+If we want to use database into a specific REST API, simply inside the module of the file, add a :  imports: [DatabaseModule]
+
+
+
+
